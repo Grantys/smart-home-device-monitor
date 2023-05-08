@@ -1,0 +1,99 @@
+- name: Salt Fiber Box
+  ip: 192.168.0.1
+  room: Cabinet
+  accessorytype: Modem
+
+- name: UDM Pro SE
+  ip: 192.168.1.1
+  room: Cabinet
+  accessorytype: Router
+
+- name: Nighthawk X10
+  ip: 192.168.1.2
+  room: Living Room
+  accessorytype: Wifi AP
+
+- name: QNAP
+  ip: 192.168.1.3
+  room: Cabinet
+  accessorytype: NAS
+
+- name: Bedroom TV
+  ip: 192.168.1.5
+  room: Bedroom
+  accessorytype: Apple TV 4k
+
+- name: HomePod mini
+  ip: 192.168.1.6
+  room: Living Room
+  accessorytype: Home bridge
+
+- name: Philips hue
+  ip: 192.168.1.7
+  room: Living Room
+  accessorytype: Home bridge
+
+- name: Logitech Harmony
+  ip: 192.168.1.9
+  room: Living Room
+  accessorytype: Home bridge
+
+- name: Roller shutter
+  ip: 192.168.1.10
+  room: Bedroom
+  accessorytype: Shelly
+
+- name: Roller shutter
+  ip: 192.168.1.11
+  room: Office
+  accessorytype: Shelly
+
+- name: Roller shutter (E)
+  ip: 192.168.1.12
+  room: Living Room
+  accessorytype: Shelly
+
+- name: Roller shutter (W)
+  ip: 192.168.1.13
+  room: Living Room
+  accessorytype: Shelly
+
+- name: Sonos AMP
+  ip: 192.168.1.14
+  room: Bedroom
+  accessorytype: Sonos
+
+- name: Sonos AMP
+  ip: 192.168.1.15
+  room: Office
+  accessorytype: Sonos
+
+- name: Sonos AMP
+  ip: 192.168.1.16
+  room: Bathroom
+  accessorytype: Sonos
+
+- name: Sonos AMP
+  ip: 192.168.1.17
+  room: Kitchen
+  accessorytype: Sonos
+
+- name: Airplay
+  ip: 192.168.1.18
+  room: Bedroom
+  accessorytype: Airport Express
+
+- name: Airplay
+  ip: 192.168.1.19
+  room: Office
+  accessorytype: Airport Express
+
+- name: Airplay
+  ip: 192.168.1.20
+  room: Bathroom
+  accessorytype: Airport Express
+
+- name: Airplay
+  ip: 192.168.1.21
+  room: Kitchen
+  accessorytype: Airport Express

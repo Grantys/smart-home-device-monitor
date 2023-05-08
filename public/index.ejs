@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= __('title')%></title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+  <h1><%= __('smartHomeDeviceMonitor')%></h1>
+  <div class="button-container">
+    <button id="groupAccessoryType" class="group-btn active"><%= __('groupByAccessoryType')%></button>
+    <button id="groupRoom" class="group-btn"><%= __('groupByRoom')%></button>
+  </div>
+  <div id="devices"></div>
+  <script>
+    const socket = io();
+    const devicesElement = document.getElementById('devices');
+    const groupAccessoryTypeButton = document.getElementById('groupAccessoryType');
+    const groupRoomButton = document.getElementById('groupRoom');
+
+    let groupBy = 'accessorytype'; // Default grouping option
+
+    const setActiveButton = (activeButton) => {
+        groupAccessoryTypeButton.classList.remove('active');
+        groupRoomButton.classList.remove('active');
+        activeButton.classList.add('active');
+    };
+
+    groupAccessoryTypeButton.addEventListener('click', () => {
+        groupBy = 'accessorytype';
+        updateDevices();
+        setActiveButton(groupAccessoryTypeButton);
+    });
+
+    groupRoomButton.addEventListener('click', () => {
+        groupBy = 'room';
+        updateDevices();
+        setActiveButton(groupRoomButton);
+    });
+
+   const renderDevice = (list, device, groupingByRoom) => {
+    const isOnline = device.lastSeen !== undefined && (Date.now() - new Date(device.lastSeen)) <= 60000;
+    const lastSeenSecondsAgo = isOnline ? Math.floor((Date.now() - new Date(device.lastSeen)) / 1000) : '-';
+    
+    let groupingInfo = device.room;
+        if (groupBy === 'room' && device.room) {
+            groupingInfo = device.accessorytype;
+        }
+
+    const deviceDiv = document.createElement('div');
+    deviceDiv.className = 'device';
+
+    const headingDiv = document.createElement('div');
+    headingDiv.className = 'heading';
+
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'title';
+    titleDiv.textContent = device.name;
+
+    const hostLink = document.createElement('a');
+    hostLink.className = 'host-link';
+    hostLink.href = 'http://' + device.ip;
+    hostLink.target = '_blank';
+    hostLink.textContent = device.ip;
+
+    const groupingBadge = document.createElement('div');
+    groupingBadge.className = 'status-badge grouping-badge';
+    groupingBadge.textContent = groupingInfo;
+
+    headingDiv.appendChild(titleDiv);
+    headingDiv.appendChild(hostLink);
+    headingDiv.appendChild(groupingBadge);
+
+    const statusDiv = document.createElement('div');
+    statusDiv.className = 'status';
+
+    const statusBadgesDiv = document.createElement('div');
+    statusBadgesDiv.className = 'status-badges';
+
+    const statusBadgeDiv = document.createElement('div');
+    statusBadgeDiv.className = `status-badge ${isOnline ? 'online' : 'offline'}`;
+    statusBadgeDiv.textContent = isOnline ? '<%= __('online') %>' : '<%= __('offline') %>';
+
+    statusBadgesDiv.appendChild(statusBadgeDiv);
+
+    const lastSeenDiv = document.createElement('div');
+    lastSeenDiv.className = 'last-seen';
+    lastSeenDiv.textContent = '<%= __('lastSeen') %> ' + (isOnline ? lastSeenSecondsAgo + '<%= __('secondsAgo') %>' : '<%= __('unknown') %>');
+
+    statusDiv.appendChild(statusBadgesDiv);
+    statusDiv.appendChild(lastSeenDiv);
+
+    deviceDiv.appendChild(headingDiv);
+    deviceDiv.appendChild(statusDiv);
+
+    list.appendChild(deviceDiv);
+    };
+
+  const updateDevices = async () => {
+    const response = await fetch('/devices');
+    const devices = await response.json();
+
+  // Group devices based on the selected option
+  const groupedDevices = devices.reduce((groups, device) => {
+    const key = device[groupBy];
+    if (!groups[key]) {
+      groups[key] = [];
+    }
+    groups[key].push(device);
+    return groups;
+  }, {});
+
+  devicesElement.innerHTML = '';
+  Object.keys(groupedDevices).forEach(groupName => {
+    const groupDiv = document.createElement('div');
+    groupDiv.innerHTML = `<h2>${groupName}</h2>`;
+    groupedDevices[groupName].forEach(device => {
+      renderDevice(groupDiv, device);
+    });
+    devicesElement.appendChild(groupDiv);
+  });
+};
+updateDevices();
+    socket.on('connect', () => {
+      setInterval(updateDevices, 1000);
+    });
+  </script>
+</body>
+</html>

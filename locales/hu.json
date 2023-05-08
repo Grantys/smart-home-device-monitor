@@ -1,0 +1,11 @@
+{
+  "title": "Eszköz lista",
+  "smartHomeDeviceMonitor": "Okos otthon eszközfigyelő",
+  "groupByAccessoryType": "Csoportosítás: kiegészítő típus",
+  "groupByRoom": "Csoportosítás: helyiség",
+  "online": "Aktív",
+  "offline": "Inaktív",
+  "lastSeen": "Utoljára aktív:",
+  "secondsAgo": "s ezelőtt",
+  "unknown": "Ismeretlen"
+}

@@ -1,0 +1,11 @@
+{
+  "title": "Device List",
+  "smartHomeDeviceMonitor": "Smart Home Device Monitor",
+  "groupByAccessoryType": "Group by Accessory Type",
+  "groupByRoom": "Group by Room",
+  "online": "Online",
+  "offline": "Offline",
+  "lastSeen": "Last seen:",
+  "secondsAgo": "s ago",
+  "unknown": "Unknown"
+}
